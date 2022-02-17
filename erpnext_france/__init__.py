@@ -1,6 +1,4 @@
-# Copyright (c) 2018, Frappe Technologies and contributors
-# For license information, please see license.txt
-
+__version__ = '0.0.1'
 
 import frappe
 from frappe import _
@@ -10,8 +8,9 @@ from erpnext import get_region
 
 def check_deletion_permission(doc, method):
 	region = get_region(doc.company)
-	if region in ["Nepal", "France"] and doc.docstatus != 0:
+	if region in ["Nepal", "France"] and doc.docstatus != 0:  # ToDo: this customization for Nepal could be moved elsewhere
 		frappe.throw(_("Deletion is not permitted for country {0}").format(region))
+
 
 def create_transaction_log(doc, method):
 	"""
@@ -19,7 +18,7 @@ def create_transaction_log(doc, method):
 	Called on submit of Sales Invoice and Payment Entry.
 	"""
 	region = get_region()
-	if region not in ["France", "Germany"]:
+	if region != "France":
 		return
 
 	data = str(doc.as_dict())
@@ -30,4 +29,3 @@ def create_transaction_log(doc, method):
 		"document_name": doc.name,
 		"data": data
 	}).insert(ignore_permissions=True)
-

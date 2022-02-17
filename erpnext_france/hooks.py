@@ -68,6 +68,9 @@ app_license = "MIT"
 # before_install = "erpnext_france.install.before_install"
 # after_install = "erpnext_france.install.after_install"
 
+after_install = "erpnext_france.install.after_install"
+
+
 # Uninstallation
 # ------------
 
@@ -111,6 +114,17 @@ app_license = "MIT"
 # 		"on_trash": "method"
 #	}
 # }
+
+doc_events = {
+	"Sales Invoice": {
+		"on_trash": "erpnext_france.check_deletion_permission",
+		"on_submit": "erpnext_france.create_transaction_log"
+	},
+	"Payment Entry": {
+		"on_trash": "erpnext_france.check_deletion_permission",
+		"on_submit": "erpnext_france.create_transaction_log"
+	},
+}
 
 # Scheduled Tasks
 # ---------------
@@ -187,4 +201,3 @@ app_license = "MIT"
 # auth_hooks = [
 # 	"erpnext_france.auth.validate"
 # ]
-
